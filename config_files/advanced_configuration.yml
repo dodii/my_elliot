@@ -16,7 +16,7 @@ experiment:
         folds: 5
   top_k: 50
   evaluation:
-    simple_metrics: [nDCG, ACLT, ARP]
+    simple_metrics: [nDCG, ACLT, AR]
     complex_metrics:
     - metric: UserMADrating
       clustering_name: Happiness

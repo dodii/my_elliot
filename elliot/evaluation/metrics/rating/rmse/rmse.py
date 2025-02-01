@@ -64,7 +64,7 @@ class RMSE(BaseMetric):
         :param user_relevant_items: list of user relevant items in the form [item1,...]
         :return: the value of the Precision metric for the specific user
         """
-        return sum([(v - user_test[i])**2 for i, v in user_recommendations if i in user_relevant_items])
+        return sum([(v - np.float128(user_test[i]))**2 for i, v in user_recommendations if i in user_relevant_items])
 
     def eval(self):
         """

@@ -1,0 +1,157 @@
+experiment:
+  dataset: jester2
+  data_config:
+    strategy: dataset
+    dataset_path: ../../data/jester/representative_rating_42.tsv
+    # side_information:
+    #   - dataloader: AnimeAttributes
+    #     attribute_file: ../../data/anime/anime.tsv
+  splitting:
+    test_splitting:
+        strategy: random_subsampling
+        leave_n_out: 1
+  top_k: 50
+  evaluation:
+    simple_metrics: [AUC, GAUC, LAUC, F1, HR, MAP, MAR, MRR, nDCG, Precision, Recall, RMSE]
+    complex_metrics:
+    - metric: DSC
+      beta: 1
+      metric_0: Precision
+      metric_1: Recall
+    - metric: ExtendedF1
+      metric_0: Precision
+      metric_1: Recall
+  gpu: -1
+  external_models_path: ../../external/models/__init__.py
+  models:
+    Random:
+      meta:
+        save_recs: False
+      random_seed: 42
+    external.TSVD:
+      meta:
+        save_recs: False
+      factors: 20
+      seed: 42
+    AMF:
+      meta:
+        save_recs: False
+        eval_perturbations: False
+      epochs: 5
+      batch_size: 512
+      factors: 20
+      lr: 0.001
+      l_w: 0.1
+      l_b: 0.001
+      eps: 0.1
+      l_adv: 0.001
+      adversarial_epochs: 5
+      nb_iter: 20
+      # eps_iter: 0.00001  # If not specified = 2.5*eps/nb_iter
+    MultiDAE:
+      meta:
+        save_recs: False
+      epochs: 5
+      batch_size: 512
+      intermediate_dim: 600
+      latent_dim: 20
+      reg_lambda: 0.01
+      lr: 0.001
+      dropout_pkeep: 1
+    MultiVAE:
+      meta:
+        save_recs: False
+      epochs: 5
+      batch_size: 512
+      intermediate_dim: 600
+      latent_dim: 20
+      reg_lambda: 0.01
+      lr: 0.001
+      dropout_pkeep: 1
+    CFGAN:
+      meta:
+        save_recs: False
+      epochs: 5
+      batch_size: 512
+      factors: 20
+      lr: 0.001
+      l_w: 0.1
+      l_b: 0.001
+      l_gan: 0.001
+      g_epochs: 5
+      d_epochs: 1
+      s_zr: 0.001
+      s_pm: 0.001
+    SVDpp:
+      meta:
+        save_recs: False
+      epochs: 5
+      batch_size: 512
+      factors: 20
+      lr: 0.001
+      reg_w: 0.1
+      reg_b: 0.001
+    SlopeOne:
+      meta:
+        save_recs: False
+    GMF:
+      meta:
+        save_recs: False
+      epochs: 5
+      batch_size: 512
+      mf_factors: 20
+      lr: 0.001
+      is_edge_weight_train: True
+    UserKNN:
+      meta:
+        save_recs: False
+      neighbors: 5
+      similarity: cosine
+      implementation: aiolli  
+    LightGCN:
+      meta:
+        save_recs: False
+      lr: 0.0005
+      epochs: 5
+      batch_size: 512
+      factors: 20
+      batch_size: 256
+      l_w: 0.1
+      n_layers: 1
+      n_fold: 5
+    NGCF:
+      meta:
+        save_recs: False
+      lr: 0.0005
+      epochs: 5
+      batch_size: 512
+      factors: 20
+      batch_size: 256
+      l_w: 0.1
+      weight_size: (64,)
+      node_dropout: ()
+      message_dropout: (0.1,)
+      n_fold: 5
+    MF:
+      meta:
+        save_recs: False
+      epochs: 5
+      batch_size: 512
+      factors: 20
+      lr: 0.001
+      reg: 0.1
+    UserAutoRec:
+      meta:
+        save_recs: False
+      epochs: 5
+      batch_size: 512
+      hidden_neuron: 500
+      lr: 0.0001
+      l_w: 0.001
+    WRMF:
+      meta:
+        save_recs: False
+      epochs: 5
+      factors: 20
+      alpha: 1
+      reg: 0.1
